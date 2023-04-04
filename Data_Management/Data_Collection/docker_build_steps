@@ -1,0 +1,30 @@
+
+
+Build the Docker image:
+docker build -t your-docker-image-name .
+
+
+Create an Amazon ECR repository:
+aws ecr create-repository --repository-name your-ecr-repo-name
+
+
+Log in to ECR:
+aws ecr get-login-password --region your-region | docker login --username AWS --password-stdin your-account-id.dkr.ecr.your-region.amazonaws.com
+
+Tag and push the Docker image:
+docker tag your-docker-image-name:latest your-account-id.dkr.ecr.your-region.amazonaws.com/your-ecr-repo-name:latest
+docker push your-account-id.dkr.ecr.your-region.amazonaws.com/your-ecr-repo-name:latest
+
+
+
+Finally, create your EMR cluster with a custom Docker image:
+aws emr create-cluster \
+    --name "Your Spark Cluster" \
+    --release-label emr-6.4.0 \
+    --applications Name=Spark \
+    --instance-type m5.xlarge \
+    --instance-count 3 \
+    --use-default-roles \
+    --log-uri s3://your-data-bucket/logs/ \
+    --configurations file://path/to/your/emr-configurations.json \   # Use the `config_str` variable when submitting your EMR job since we will be using environment variables for keys 
+    --region your-region

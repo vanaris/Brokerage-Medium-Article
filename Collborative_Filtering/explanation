@@ -1,0 +1,2 @@
+For collaborative filtering, we can use the Alternating Least Squares (ALS) algorithm provided by the Spark MLlib library. It's a matrix factorization technique that can help in recommending insurance products to clients. We'll modify the Flink code to use Spark with the EMR cluster for this purpose.
+

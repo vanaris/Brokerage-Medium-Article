@@ -1,0 +1,19 @@
+To deploy the model, you can use Amazon SageMaker, which is a fully-managed service that provides every developer and data scientist with the ability to build, train, and deploy machine learning (ML) models quickly.
+
+
+Creating a SageMaker Model using the trained ALS model: 
+
+Create a Dockerfile
+
+build the Docker image and push it to Amazon ECR: 
+
+$(aws ecr get-login --no-include-email --region us-west-2)
+
+docker build -t insurance-predict .
+docker tag insurance-predict:latest your-account-id.dkr.ecr.your-region.amazonaws.com/your-ecr-repo-name:latest
+docker push your-account-id.dkr.ecr.your-region.amazonaws.com/your-ecr-repo-name:latest
+
+Create a SageMaker endpoint for real-time predictions:
+Create a SageMaker model using the Docker image from Amazon ECR.
+Create an endpoint configuration with the model.
+Create a SageMaker endpoint using the endpoint configuration.
